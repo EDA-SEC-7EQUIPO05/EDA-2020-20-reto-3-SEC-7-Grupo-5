@@ -24,7 +24,9 @@ import sys
 import config
 from DISClib.ADT import list as lt
 from App import controller
+from DISClib.DataStructures import listiterator as it
 assert config
+from DISClib.ADT import map as mp
 
 """
 La vista se encarga de la interacción con el usuario.
@@ -35,10 +37,9 @@ operación seleccionada.
 
 # ___________________________________________________
 #  Ruta a los archivos
-# ___________________________________________________
+# _____________________________________________
 
-
-crimefile = 'crime-utf8.csv'
+small_us_accidents="us_accidents_small.csv"
 
 # ___________________________________________________
 #  Menu principal
@@ -56,6 +57,11 @@ def printMenu():
     print("0- Salir")
     print("*******************************************")
 
+def print_severity_information_by_date(SeverityIndex_values):
+    iterator = it.newIterator(SeverityIndex_values)
+    if it.hasNext(iterator):
+        elemento = it.next(iterator)
+        print("Severity: "+str(elemento['Severity'])+" -> "+str(elemento['Accidents']['size'])+" accidentes")
 
 """
 Menu principal
@@ -71,13 +77,35 @@ while True:
 
     elif int(inputs[0]) == 2:
         print("\nCargando información de crimenes ....")
+        controller.loadData(cont,small_us_accidents)
+        print("Accidentes cargados: "+str(controller.sizeAccidents(cont)))
+        print("Altura del arbol: "+str(controller.heightDateIndex(cont)))
+        print("Elementos del arbol: "+str(controller.sizeDateIndex(cont)))
+        print("Menor llave: "+str(controller.minKey(cont)))
+        print("Mayor llave: "+str(controller.maxKey(cont)))
+
 
     elif int(inputs[0]) == 3:
-        print("\nBuscando crimenes en un rango de fechas: ")
+        print("\nRequerimiento No 1 del reto 3: ")
+        initialDate = input("Fecha (YYYY-MM-DD): ")
+        value = controller.accidentsbyDate(cont,initialDate)
+        SeverityIndex = value['SeverityIndex']
+        SeverityIndex_values = controller.severitybyDate(SeverityIndex)
+        print("Los accidentes por severidad en esta fecha son:\n")
+        print_severity_information_by_date(SeverityIndex_values)
+        print("\nEl total de accidentes para esa fecha es de: "+str(value["AccidentList"]["size"]))
+        keys = mp.keySet(SeverityIndex)
+        iterator = it.newIterator(keys)
+        i=1
+        if it.hasNext(iterator):
+            elemento = it.next(iterator)
+            print("Severity"+str(i)+": "+str(elemento))
+            i+=1
+        print("Hay "+ str(keys["size"])+" severities")
 
 
     elif int(inputs[0]) == 4:
-        print("\nRequerimiento No 1 del reto 3: ")
+        print("\nBuscando crimenes en un rango de fechas: ")
 
     else:
         sys.exit(0)
