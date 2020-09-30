@@ -30,8 +30,6 @@ assert config
 """
 En este archivo definimos los TADs que vamos a usar,
 es decir contiene los modelos con los datos en memoria
-
-
 """
 
 # -----------------------------------------------------
@@ -86,7 +84,7 @@ def updateDateIndex(accident, mapa):
         dateEntry = newDateEntry()
         om.put(mapa, accdate.date(), dateEntry)
     else:
-        dateEntry = m.getValue(entry)
+        dateEntry = me.getValue(entry)
     addDateAccident(dateEntry, accident)
     return mapa
 
@@ -110,13 +108,11 @@ def minKey(analyzer):
 def maxKey(analyzer):
     return om.maxKey(analyzer['DateIndex'])
 
-<<<<<<< HEAD
-def accidentsbyDate(analyser, date):
-    return om.get(analyser['DateIndex'], date)
-=======
 def accidentsbyDate(analyzer, date):
-    return om.get(analyzer['dateIndex'], date)
->>>>>>> e22c4a14fd225afd46000d0174a6a3fef2ace1ba
+    element = me.getValue(om.get(analyzer['DateIndex'], date))
+    if element is not None:
+        return lt.size(element['AccidentList'])
+    return None
 
 # ==============================
 # Funciones de Comparacion
@@ -146,4 +142,3 @@ def compareSeverity(sev_1, sev_2):
         return 1
     else:
         return -1
-
