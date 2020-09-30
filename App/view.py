@@ -82,7 +82,7 @@ while True:
         print("\nRequerimiento No 1 del reto 3: ")
         initialDate = input("Fecha (YYYY-MM-DD): ")
         numAccidents=controller.accidentsbyDate(cont,initialDate)
-        print("El total de accidentes para esa fecha es de: "+str(numAccidents))
+        print("El total de accidentes para esa fecha es de: ",numAccidents)
 
 
     elif int(inputs[0]) == 4:

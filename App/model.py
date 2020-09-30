@@ -37,7 +37,7 @@ es decir contiene los modelos con los datos en memoria
 # -----------------------------------------------------
 
 def newAnalyzer():
-    analyzer = {'accidents': None, 'DateIndex': None}
+    analyzer = {'accidents': None, 'dateIndex': None}
     analyzer['accidents'] = lt.newList('SINGLE_LINKED', compareAccidentId)
     analyzer['DateIndex'] = om.newMap(omaptype='BST', comparefunction = compareDates)
     return analyzer
@@ -67,11 +67,12 @@ def addDateAccident(entry, acdnt):
     severity = acdnt['Severity']
     lt.addLast(lst, acdnt)
     esta = m.contains(sevIndex, severity)
-    if esta is None:
+    if esta == False:
         sevEntry = newSeverityEntry(severity)
         m.put(sevIndex, severity, sevEntry)
     else:
-        sevEntry = me.getValue(esta)
+        sevElement = m.get(sevIndex, severity)
+        sevEntry = me.getValue(sevElement)
     lt.addLast(sevEntry['Accidents'], acdnt)
     return entry
 
@@ -83,7 +84,7 @@ def updateDateIndex(accident, mapa):
         dateEntry = newDateEntry()
         om.put(mapa, accdate.date(), dateEntry)
     else:
-        dateEntry = m.getValue(entry)
+        dateEntry = me.getValue(entry)
     addDateAccident(dateEntry, accident)
     return mapa
 
@@ -107,8 +108,8 @@ def minKey(analyzer):
 def maxKey(analyzer):
     return om.maxKey(analyzer['DateIndex'])
 
-def accidentsbyDate(analyzer, date):
-    return om.get(analyzer['DateIndex'], date)
+def accidentsbyDate(analyser, date):
+    return om.get(analyser['DateIndex'], date)
 
 # ==============================
 # Funciones de Comparacion
