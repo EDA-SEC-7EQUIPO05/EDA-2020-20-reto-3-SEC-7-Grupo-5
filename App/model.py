@@ -47,13 +47,13 @@ def newAnalyzer():
 # Funciones para agregar informacion al catalogo
 
 def addAccident(accident, analyzer):
-    lt.addlast(analyzer['accidents'], accident)
-    updateDateIndex(accident, analyzer['dateIndex'])
+    lt.addLast(analyzer['accidents'], accident)
+    updateDateIndex(accident, analyzer['DateIndex'])
     return analyzer
 
 def newDateEntry():
     newEntry = {'SeverityIndex': None, 'AccidentList': None}
-    newEntry['SeverityIndex'] = m.newMap(numelement = 5, maptype = 'PROBING', loadfactor = 0.5, comparefunction = compareSeverity)
+    newEntry['SeverityIndex'] = m.newMap(numelements = 5, maptype = 'PROBING', loadfactor = 0.5, comparefunction = compareSeverity)
     newEntry['AccidentList'] = lt.newList('SINGLE_LINKED', compareDates)
     return newEntry
 
@@ -67,20 +67,21 @@ def addDateAccident(entry, acdnt):
     sevIndex = entry['SeverityIndex']
     lst = entry['AccidentList']
     severity = acdnt['Severity']
-    lt.addlast(lst, acdnt)
+    lt.addLast(lst, acdnt)
     esta = m.contains(sevIndex, severity)
-    if esta is None:
+    if esta == False:
         sevEntry = newSeverityEntry(severity)
         m.put(sevIndex, severity, sevEntry)
     else:
-        sevEntry = me.getValue(esta)
-    lt.addlast(sevEntry['Accidents'], acdnt)
+        sevElement = m.get(sevIndex, severity)
+        sevEntry = me.getValue(sevElement)
+    lt.addLast(sevEntry['Accidents'], acdnt)
     return entry
 
 def updateDateIndex(accident, mapa):
     occurreddate = accident['Start_Time']
     accdate = datetime.datetime.strptime(occurreddate, '%Y-%m-%d %H:%M:%S')
-    entry = om.get(map, accdate.date())
+    entry = om.get(mapa, accdate.date())
     if entry is None:
         dateEntry = newDateEntry()
         om.put(mapa, accdate.date(), dateEntry)
@@ -98,19 +99,19 @@ def sizeAccidents(analyzer):
     return lt.size(analyzer['accidents'])
 
 def sizeDateIndex(analyzer):
-    return om.size(analyzer['dateIndex'])
+    return om.size(analyzer['DateIndex'])
 
 def heightDateIndex(analyzer):
-    return om.height(analyzer['dateIndex'])
+    return om.height(analyzer['DateIndex'])
 
 def minKey(analyzer):
-    return om.minKey(analyzer['dateIndex'])
+    return om.minKey(analyzer['DateIndex'])
 
 def maxKey(analyzer):
-    return om.maxKey(analyzer['dateIndex'])
+    return om.maxKey(analyzer['DateIndex'])
 
 def accidentsbyDate(analyser, date):
-    return om.get(analyser['dateIndex'], date)
+    return om.get(analyser['DateIndex'], date)
 
 # ==============================
 # Funciones de Comparacion
