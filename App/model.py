@@ -109,33 +109,13 @@ def maxKey(analyzer):
     return om.maxKey(analyzer['DateIndex'])
 
 def accidentsbyDate(analyzer, date):
-    sev_1=sev_2=sev_3=sev_4=None
-    entry = om.get(analyzer['DateIndex'], date)
-    element = me.getValue(entry)
-    sevIndex = element['SeverityIndex']
-    if sevIndex is not None:
-        sevEntry = m.get(sevIndex, '1')
-        if sevEntry is not None:
-            sevValue = me.getValue(sevEntry)
-            sevList = sevValue['Accidents']
-            sev_1 = lt.size(sevList)
-        sevEntry = m.get(sevIndex, '2')
-        if sevEntry is not None:
-            sevValue = me.getValue(sevEntry)
-            sevList = sevValue['Accidents']
-            sev_2 = lt.size(sevList)
-        sevEntry = m.get(sevIndex, '3')
-        if sevEntry is not None:
-            sevValue = me.getValue(sevEntry)
-            sevList = sevValue['Accidents']
-            sev_3 = lt.size(sevList)
-        sevEntry = m.get(sevIndex, '4')
-        if sevEntry is not None:
-            sevValue = me.getValue(sevEntry)
-            sevList = sevValue['Accidents']
-            sev_4 = lt.size(sevList)
-        return {'1': sev_1, '2': sev_2, '3': sev_3, '4': sev_4}
+    element = me.getValue(om.get(analyzer['DateIndex'], date))
+    if element is not None:
+        return element
     return None
+
+def severitybyDate(SeverityIndex):
+    return m.valueSet(SeverityIndex)
 
 # ==============================
 # Funciones de Comparacion
