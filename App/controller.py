@@ -82,5 +82,5 @@ def maxKey(analyzer):
     return model.maxKey(analyzer)
 
 def accidentsbyDate(analyzer, date):
-    date = datetime.datetime.strptime(initialDate, '%Y-%m-%d')
+    date = datetime.datetime.strptime(date, '%Y-%m-%d')
     return model.accidentsbyDate(analyzer, date)
