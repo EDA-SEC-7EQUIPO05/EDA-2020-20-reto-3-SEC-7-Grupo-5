@@ -80,7 +80,7 @@ def addDateAccident(entry, acdnt):
 def updateDateIndex(accident, mapa):
     occurreddate = accident['Start_Time']
     accdate = datetime.datetime.strptime(occurreddate, '%Y-%m-%d %H:%M:%S')
-    entry = om.get(map, accdate.date())
+    entry = om.get(mapa, accdate.date())
     if entry is None:
         dateEntry = newDateEntry()
         om.put(mapa, accdate.date(), dateEntry)
@@ -109,8 +109,8 @@ def minKey(analyzer):
 def maxKey(analyzer):
     return om.maxKey(analyzer['dateIndex'])
 
-def accidentsbyDate(analyser, date):
-    return om.get(analyser['dateIndex'], date)
+def accidentsbyDate(analyzer, date):
+    return om.get(analyzer['dateIndex'], date)
 
 # ==============================
 # Funciones de Comparacion
