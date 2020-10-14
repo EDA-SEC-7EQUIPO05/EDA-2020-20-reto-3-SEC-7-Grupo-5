@@ -82,5 +82,11 @@ def maxKey(analyzer):
     return model.maxKey(analyzer)
 
 def accidentsbyDate(analyzer, initialDate):
-    initialDate=datetime.datetime.strptime(initialDate, '%Y-%m-%d')
-    return model.accidentsbyDate(analyzer, initialDate.date())
+    try:
+        initialDate=datetime.datetime.strptime(initialDate, '%Y-%m-%d')
+        return model.accidentsbyDate(analyzer, initialDate.date())
+    except:
+        return None
+
+def severitybyDate(SeverityIndex):
+    return model.severitybyDate(SeverityIndex)

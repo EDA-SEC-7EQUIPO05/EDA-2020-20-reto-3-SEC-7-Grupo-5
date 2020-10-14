@@ -108,8 +108,14 @@ def minKey(analyzer):
 def maxKey(analyzer):
     return om.maxKey(analyzer['DateIndex'])
 
-def accidentsbyDate(analyser, date):
-    return om.get(analyser['DateIndex'], date)
+def accidentsbyDate(analyzer, date):
+    element = me.getValue(om.get(analyzer['DateIndex'], date))
+    if element is not None:
+        return element
+    return None
+
+def severitybyDate(SeverityIndex):
+    return m.valueSet(SeverityIndex)
 
 # ==============================
 # Funciones de Comparacion
