@@ -39,7 +39,7 @@ es decir contiene los modelos con los datos en memoria
 def newAnalyzer():
     analyzer = {'accidents': None, 'dateIndex': None}
     analyzer['accidents'] = lt.newList('SINGLE_LINKED', compareAccidentId)
-    analyzer['DateIndex'] = om.newMap(omaptype='BST', comparefunction = compareDates)
+    analyzer['DateIndex'] = om.newMap(omaptype='RBT', comparefunction = compareDates)
     return analyzer
 
 # Funciones para agregar informacion al catalogo
