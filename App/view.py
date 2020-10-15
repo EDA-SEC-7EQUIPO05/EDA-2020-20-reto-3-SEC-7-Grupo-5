@@ -104,8 +104,18 @@ while True:
             else:
                 print("No se encontró la fecha o no es un dato válido, ingrese una fecha de nuevo")
 
-
     elif int(inputs[0]) == 4:
+        print("\nRequerimiento No 2 del reto 3: ")
+        while True:
+            initialDate = input("Fecha (YYYY-MM-DD): ")
+            value = controller.accidentsbyDate(cont,initialDate)
+            if value is not None:
+                    print("Los accidentes antes a esta fecha son: "+str(controller.accidentsbeforeDate(cont,initialDate)))
+                    break
+            else:
+                print("No se encontró la fecha o no es un dato válido, ingrese una fecha de nuevo")     
+
+    elif int(inputs[0]) == 5:
         print("\nBuscando crimenes en un rango de fechas: ")
 
     elif int(inputs[0]) == 0:

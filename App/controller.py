@@ -45,6 +45,8 @@ def init():
     analyzer = model.newAnalyzer()
     return analyzer
 
+
+
 # ___________________________________________________
 #  Funciones para la carga de datos y almacenamiento
 #  de datos en los modelos
@@ -88,3 +90,5 @@ def accidentsbyDate(analyzer, initialDate):
 
 def severitybyDate(SeverityIndex):
     return model.severitybyDate(SeverityIndex)
+
+

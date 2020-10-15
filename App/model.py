@@ -30,8 +30,6 @@ assert config
 """
 En este archivo definimos los TADs que vamos a usar,
 es decir contiene los modelos con los datos en memoria
-
-
 """
 
 # -----------------------------------------------------
@@ -41,10 +39,54 @@ es decir contiene los modelos con los datos en memoria
 def newAnalyzer():
     analyzer = {'accidents': None, 'dateIndex': None}
     analyzer['accidents'] = lt.newList('SINGLE_LINKED', compareAccidentId)
-    analyzer['DateIndex'] = om.newMap(omaptype='RBT', comparefunction = compareDates)
+    analyzer['DateIndex'] = om.newMap(omaptype='BST', comparefunction = compareDates)
     return analyzer
 
 # Funciones para agregar informacion al catalogo
+
+def addAccident(accident, analyzer):
+    lt.addLast(analyzer['accidents'], accident)
+    updateDateIndex(accident, analyzer['DateIndex'])
+    return analyzer
+
+def newDateEntry():
+    newEntry = {'SeverityIndex': None, 'AccidentList': None}
+    newEntry['SeverityIndex'] = m.newMap(numelements = 5, maptype = 'PROBING', loadfactor = 0.5, comparefunction = compareSeverity)
+    newEntry['AccidentList'] = lt.newList('SINGLE_LINKED', compareDates)
+    return newEntry
+
+def newSeverityEntry(severity):
+    sevEntry = {'Severity': None, 'Accidents': None}
+    sevEntry['Severity'] = severity
+    sevEntry['Accidents'] = lt.newList('SINGLE_LINKED', compareSeverity)
+    return sevEntry
+
+def addDateAccident(entry, acdnt):
+    sevIndex = entry['SeverityIndex']
+    lst = entry['AccidentList']
+    severity = acdnt['Severity']
+    lt.addLast(lst, acdnt)
+    esta = m.contains(sevIndex, severity)
+    if esta == False:
+        sevEntry = newSeverityEntry(severity)
+        m.put(sevIndex, severity, sevEntry)
+    else:
+        sevElement = m.get(sevIndex, severity)
+        sevEntry = me.getValue(sevElement)
+    lt.addLast(sevEntry['Accidents'], acdnt)
+    return entry
+
+def updateDateIndex(accident, mapa):
+    occurreddate = accident['Start_Time']
+    accdate = datetime.datetime.strptime(occurreddate, '%Y-%m-%d %H:%M:%S')
+    entry = om.get(mapa, accdate.date())
+    if entry is None:
+        dateEntry = newDateEntry()
+        om.put(mapa, accdate.date(), dateEntry)
+    else:
+        dateEntry = me.getValue(entry)
+    addDateAccident(dateEntry, accident)
+    return mapa
 
 
 # ==============================
@@ -75,6 +117,32 @@ def accidentsbyDate(analyzer, date):
 def severitybyDate(SeverityIndex):
     return m.valueSet(SeverityIndex)
 
+
 # ==============================
 # Funciones de Comparacion
 # ==============================
+
+def compareAccidentId(id_1, id_2):
+    if id_1 == id_2:
+        return 0
+    elif id_1 > id_2:
+        return 1
+    else:
+        return -1
+
+def compareDates(date_1, date_2):
+    if date_1 == date_2:
+        return 0
+    elif date_1 > date_2:
+        return 1
+    else:
+        return -1
+
+def compareSeverity(sev_1, sev_2):
+    sev_entry = me.getKey(sev_2)
+    if sev_1 == sev_entry:
+        return 0
+    elif sev_1 > sev_entry:
+        return 1
+    else:
+        return -1
