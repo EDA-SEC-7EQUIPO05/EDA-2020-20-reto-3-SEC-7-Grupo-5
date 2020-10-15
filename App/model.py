@@ -37,7 +37,7 @@ es decir contiene los modelos con los datos en memoria
 # -----------------------------------------------------
 
 def newAnalyzer():
-    analyzer = {'accidents': None, 'dateIndex': None}
+    analyzer = {'accidents': None, 'DateIndex': None}
     analyzer['accidents'] = lt.newList('SINGLE_LINKED', compareAccidentId)
     analyzer['DateIndex'] = om.newMap(omaptype='BST', comparefunction = compareDates)
     return analyzer
@@ -116,6 +116,12 @@ def accidentsbyDate(analyzer, date):
 
 def severitybyDate(SeverityIndex):
     return m.valueSet(SeverityIndex)
+
+def accidentsbeforeDate(analyzer, date):
+    element = me.getValue(om.get(analyzer['DateIndex'], date))
+    if element is not None:
+        return om.rank(analyzer['DateIndex'], date)
+    return None
 
 
 # ==============================
