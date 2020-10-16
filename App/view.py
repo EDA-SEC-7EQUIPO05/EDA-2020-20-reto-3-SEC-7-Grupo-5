@@ -63,6 +63,13 @@ def print_severity_information_by_date(SeverityIndex_values):
         elemento = it.next(iterator)
         print("Severity: "+str(elemento['Severity'])+" -> "+str(elemento['Accidents']['size'])+" accidentes")
 
+def print_accidents_day (accidents):
+    iterator = it.newIterator(accidents)
+    while it.hasNext(iterator):
+        elemento = it.next(iterator)
+        print(elemento)
+
+
 """
 Menu principal
 """
@@ -106,14 +113,9 @@ while True:
 
     elif int(inputs[0]) == 4:
         print("\nRequerimiento No 2 del reto 3: ")
-        while True:
-            initialDate = input("Fecha (YYYY-MM-DD): ")
-            value = controller.accidentsbyDate(cont,initialDate)
-            if value is not None:
-                    print("Los accidentes antes a esta fecha son: "+str(controller.accidentsbeforeDate(cont,initialDate)))
-                    break
-            else:
-                print("No se encontró la fecha o no es un dato válido, ingrese una fecha de nuevo")     
+        date= input("Ingrese una fecha: ")
+        accidents=controller.accidentsbeforeDate(cont,date) 
+        print_accidents_day(accidents)   
 
     elif int(inputs[0]) == 5:
         print("\nBuscando crimenes en un rango de fechas: ")

@@ -91,9 +91,9 @@ def accidentsbyDate(analyzer, initialDate):
 def severitybyDate(SeverityIndex):
     return model.severitybyDate(SeverityIndex)
 
-def accidentsbeforeDate (analyzer, initialDate):
+def accidentsbeforeDate (analyzer, date):
     try:
-        initialDate=datetime.datetime.strptime(initialDate, '%Y-%m-%d')
-        return model.accidentsbeforeDate(analyzer, initialDate.date())
+        date=datetime.datetime.strptime(date, '%Y-%m-%d')
+        return model.accidentsbeforeDate(analyzer, date.date())
     except:
         return None

@@ -118,10 +118,10 @@ def severitybyDate(SeverityIndex):
     return m.valueSet(SeverityIndex)
 
 def accidentsbeforeDate(analyzer, date):
-    element = me.getValue(om.get(analyzer['DateIndex'], date))
-    if element is not None:
-        return om.rank(analyzer['DateIndex'], date)
-    return None
+    tree= analyzer["DateIndex"]
+    min_date=om.minKey(tree)
+    accidents= om.values(tree,min_date,date)
+    return accidents
 
 
 # ==============================
