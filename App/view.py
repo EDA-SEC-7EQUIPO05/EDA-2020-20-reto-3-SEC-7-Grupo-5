@@ -113,9 +113,11 @@ while True:
 
     elif int(inputs[0]) == 4:
         print("\nRequerimiento No 2 del reto 3: ")
-        date= input("Ingrese una fecha: ")
-        accidents=controller.accidentsbeforeDate(cont,date) 
-        print_accidents_day(accidents)   
+        while True:
+            date= input("Ingrese una fecha: ")
+            accidents=controller.accidentsbeforeDate(cont,date)
+            if accidents is not None:
+                print_accidents_day(accidents)   
 
     elif int(inputs[0]) == 5:
         print("\nBuscando crimenes en un rango de fechas: ")
