@@ -24,6 +24,8 @@ import sys
 import config
 from DISClib.ADT import list as lt
 from App import controller
+from DISClib.DataStructures import listiterator as it
+from time import process_time 
 assert config
 
 """
@@ -35,10 +37,9 @@ operación seleccionada.
 
 # ___________________________________________________
 #  Ruta a los archivos
-# ___________________________________________________
+# _____________________________________________
 
-
-crimefile = 'crime-utf8.csv'
+accidents_file = "us_accidents_small.csv"
 
 # ___________________________________________________
 #  Menu principal
@@ -56,6 +57,11 @@ def printMenu():
     print("0- Salir")
     print("*******************************************")
 
+def print_severity_information_by_date(SeverityIndex_values):
+    iterator = it.newIterator(SeverityIndex_values)
+    while it.hasNext(iterator):
+        elemento = it.next(iterator)
+        print("Severity: "+str(elemento['Severity'])+" -> "+str(elemento['Accidents']['size'])+" accidentes")
 
 """
 Menu principal
@@ -70,15 +76,41 @@ while True:
         cont = controller.init()
 
     elif int(inputs[0]) == 2:
-        print("\nCargando información de crimenes ....")
+        print("\nCargando información de accidentes....")
+        t_start = process_time()
+        controller.loadData(cont, accidents_file)
+        t_stop = process_time()
+        print("El tiempo de carga total fue de "+str(t_stop-t_start)+" segundos")
+        print("Accidentes cargados: "+str(controller.sizeAccidents(cont)))
+        print("Altura del arbol: "+str(controller.heightDateIndex(cont)))
+        print("Elementos del arbol: "+str(controller.sizeDateIndex(cont)))
+        print("Menor llave: "+str(controller.minKey(cont)))
+        print("Mayor llave: "+str(controller.maxKey(cont)))
+
 
     elif int(inputs[0]) == 3:
-        print("\nBuscando crimenes en un rango de fechas: ")
+        print("\nRequerimiento No 1 del reto 3: ")
+        while True:
+            initialDate = input("Fecha (YYYY-MM-DD): ")
+            value = controller.accidentsbyDate(cont,initialDate)
+            if value is not None:
+                SeverityIndex = value['SeverityIndex']
+                SeverityIndex_values = controller.severitybyDate(SeverityIndex)
+                print("Los accidentes por severidad en esta fecha son:\n")
+                print_severity_information_by_date(SeverityIndex_values)
+                print("\nEl total de accidentes para esa fecha es de "+str(value["AccidentList"]["size"]))
+                print("Hay "+ str(SeverityIndex["size"])+" severities")
+                break
+            else:
+                print("No se encontró la fecha o no es un dato válido, ingrese una fecha de nuevo")
 
 
     elif int(inputs[0]) == 4:
-        print("\nRequerimiento No 1 del reto 3: ")
+        print("\nBuscando crimenes en un rango de fechas: ")
 
-    else:
+    elif int(inputs[0]) == 0:
         sys.exit(0)
+    
+    else:
+        print("Ingrese una opción válida")
 sys.exit(0)
