@@ -142,9 +142,11 @@ while True:
             print("No se encontró la fecha o no es un dato válido, ingrese una fecha de nuevo")
 
     elif int(inputs[0]) == 5:
+        print("\nRequerimiento No 3 del reto 3: ")
         print("\nBuscando crimenes en un rango de fechas: ")
 
     elif int(inputs[0]) == 6:
+        print("\nRequerimiento No 4 del reto 3: ")
         mindate = input("Primera fecha (YYYY-MM-DD): ")
         maxdate = input("Segunda fecha (YYYY-MM-DD): ")
         max_date_acc = controller.maxDateinRange(mindate, maxdate, cont)
@@ -153,6 +155,7 @@ while True:
         print("El estado con mas accidentes es",max_state_acc[1],"con",max_state_acc[0],"accidentes.")
 
     elif int(inputs[0]) == 7:
+        print("\nRequerimiento No 5 del reto 3: ")
         mintime = input("Primera hora (HH-MM-SS): ")
         maxtime = input("Segunda hora (HH-MM-SS): ")
         info = controller.accidentsinTimeRange(mintime, maxtime, cont)
