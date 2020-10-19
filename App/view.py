@@ -68,11 +68,13 @@ def print_severity_information_by_date(SeverityIndex_values):
 
 
 def print_accidents_before_date (accidentes):
+    
     for i in range(1,lt.size(accidentes)):
-        KeyDate=lt.getElement(accidentes,i)
-        
-    print(KeyDate)      
-   
+        keyDate=lt.getElement(accidentes,i)
+        cantidad=lt.size(keyDate["AccidentList"])
+
+    print(cantidad)
+
 
 """
 Menu principal
