@@ -26,7 +26,10 @@ from DISClib.ADT import list as lt
 from App import controller
 from DISClib.DataStructures import listiterator as it
 from time import process_time 
+from DISClib.ADT import orderedmap as om
+from DISClib.ADT import map as m
 assert config
+
 
 """
 La vista se encarga de la interacción con el usuario.
@@ -63,12 +66,13 @@ def print_severity_information_by_date(SeverityIndex_values):
         elemento = it.next(iterator)
         print("Severity: "+str(elemento['Severity'])+" -> "+str(elemento['Accidents']['size'])+" accidentes")
 
-def print_accidents_day (accidents):
-    iterator = it.newIterator(accidents)
-    while it.hasNext(iterator):
-        elemento = it.next(iterator)
-        print(elemento)
 
+def print_accidents_before_date (accidentes):
+    for i in range(1,lt.size(accidentes)):
+        KeyDate=lt.getElement(accidentes,i)
+        
+    print(KeyDate)      
+   
 
 """
 Menu principal
@@ -111,16 +115,13 @@ while True:
             else:
                 print("No se encontró la fecha o no es un dato válido, ingrese una fecha de nuevo")
 
+
     elif int(inputs[0]) == 4:
         print("\nRequerimiento No 2 del reto 3: ")
-        while True:
-            date= input("Ingrese una fecha: ")
-            accidents=controller.accidentsbeforeDate(cont,date)
-            if accidents is not None:
-                print_accidents_day(accidents)   
+        date=input("Fecha (YYYY-MM-DD): ")
+        accidentes = controller.accidentsbeforeDate(cont,date)
+        print_accidents_before_date(accidentes)
 
-    elif int(inputs[0]) == 5:
-        print("\nBuscando crimenes en un rango de fechas: ")
 
     elif int(inputs[0]) == 0:
         sys.exit(0)

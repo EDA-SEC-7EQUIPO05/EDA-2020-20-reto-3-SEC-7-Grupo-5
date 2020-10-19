@@ -118,11 +118,10 @@ def severitybyDate(SeverityIndex):
     return m.valueSet(SeverityIndex)
 
 def accidentsbeforeDate(analyzer, date):
-    tree= analyzer["DateIndex"]
+    tree=analyzer["DateIndex"]
     min_date=om.minKey(tree)
-    accidents= om.values(tree,min_date,date)
+    accidents=om.values(tree,min_date,date)
     return accidents
-
 
 # ==============================
 # Funciones de Comparacion
