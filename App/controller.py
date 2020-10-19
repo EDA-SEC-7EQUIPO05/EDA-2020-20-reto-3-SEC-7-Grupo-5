@@ -103,3 +103,13 @@ def maxStateinRange(mindate, maxdate, analyzer):
     mindate = datetime.datetime.strptime(mindate, '%Y-%m-%d')
     maxdate = datetime.datetime.strptime(maxdate, '%Y-%m-%d')
     return model.maxStateinRange(mindate.date(), maxdate.date(), analyzer)
+
+def accidentsinTimeRange(mintime, maxtime, analyzer):
+    mintime = datetime.datetime.strptime(mintime, '%H-%M-%S')
+    maxtime = datetime.datetime.strptime(maxtime, '%H-%M-%S')
+    return model.numberAccidentsinTimeRange(analyzer, mintime.time(), maxtime.time())
+
+def severitybyTimeRange(mintime, maxtime, analyzer):
+    mintime = datetime.datetime.strptime(mintime, '%H-%M-%S')
+    maxtime = datetime.datetime.strptime(maxtime, '%H-%M-%S')
+    return model.SeveritybyTimeRange(analyzer, mintime.time(), maxtime.time())

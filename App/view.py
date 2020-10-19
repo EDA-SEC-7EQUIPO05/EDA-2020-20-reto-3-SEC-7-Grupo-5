@@ -56,6 +56,7 @@ def printMenu():
     print("4- Requerimento 2")
     print("5- Requerimento 3")
     print("6- Requerimento 4")
+    print("7- Requerimento 5")
     print("0- Salir")
     print("*******************************************")
 
@@ -122,6 +123,16 @@ while True:
         max_state_acc = controller.maxStateinRange(mindate, maxdate, cont)
         print("En el rango entre",mindate,"y",maxdate,"la fecha con más accidentes es",max_date_acc[0],"con", max_date_acc[1],"accidentes.")
         print("El estado con mas accidentes es",max_state_acc[1],"con",max_state_acc[0],"accidentes.")
+
+    elif int(inputs[0]) == 7:
+        mintime = input("Primera hora (HH-MM-SS): ")
+        maxtime = input("Segunda hora (HH-MM-SS): ")
+        info = controller.accidentsinTimeRange(mintime, maxtime, cont)
+        sevs = controller.severitybyTimeRange(mintime, maxtime, cont)
+        print("En el rango entre",mintime,"y",maxtime,"el número de accidentes es",info[0],"o", info[1],"porciento del total.\n")
+        print('Severidad:\n')
+        for i in range(1,5):
+            print(str(i)+' -> '+ str(sevs[str(i)]))
 
     elif int(inputs[0]) == 0:
         sys.exit(0)
