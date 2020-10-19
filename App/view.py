@@ -39,7 +39,7 @@ operación seleccionada.
 #  Ruta a los archivos
 # _____________________________________________
 
-accidents_file = "us_accidents_small.csv"
+accidents_file = "us_accidents_dis_2016.csv"
 
 # ___________________________________________________
 #  Menu principal
@@ -54,6 +54,8 @@ def printMenu():
     print("2- Cargar información de accidentes")
     print("3- Requerimento 1")
     print("4- Requerimento 2")
+    print("5- Requerimento 3")
+    print("6- Requerimento 4")
     print("0- Salir")
     print("*******************************************")
 
@@ -96,6 +98,8 @@ while True:
             if value is not None:
                 SeverityIndex = value['SeverityIndex']
                 SeverityIndex_values = controller.severitybyDate(SeverityIndex)
+                StateIndex = value['StateIndex']
+                StateIndex_values = controller.statebyDate(StateIndex)
                 print("Los accidentes por severidad en esta fecha son:\n")
                 print_severity_information_by_date(SeverityIndex_values)
                 print("\nEl total de accidentes para esa fecha es de "+str(value["AccidentList"]["size"]))
@@ -107,6 +111,17 @@ while True:
 
     elif int(inputs[0]) == 4:
         print("\nBuscando crimenes en un rango de fechas: ")
+
+    elif int(inputs[0]) == 5:
+        print("\nBuscando crimenes en un rango de fechas: ")
+
+    elif int(inputs[0]) == 6:
+        mindate = input("Primera fecha (YYYY-MM-DD): ")
+        maxdate = input("Segunda fecha (YYYY-MM-DD): ")
+        max_date_acc = controller.maxDateinRange(mindate, maxdate, cont)
+        max_state_acc = controller.maxStateinRange(mindate, maxdate, cont)
+        print("En el rango entre",mindate,"y",maxdate,"la fecha con más accidentes es",max_date_acc[0],"con", max_date_acc[1],"accidentes.")
+        print("El estado con mas accidentes es",max_state_acc[1],"con",max_state_acc[0],"accidentes.")
 
     elif int(inputs[0]) == 0:
         sys.exit(0)

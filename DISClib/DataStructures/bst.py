@@ -408,7 +408,7 @@ def values(bst, keylo, keyhi):
         Exception
     """
     try:
-        lstvalues = lt.newList('SINGLELINKED', bst['cmpfunction'])
+        lstvalues = lt.newList('SINGLE_LINKED', bst['cmpfunction'])
         lstvalues = valuesRange(bst['root'], keylo, keyhi, lstvalues,
                                 bst['cmpfunction'])
         return lstvalues
@@ -846,11 +846,11 @@ def valuesRange(root, keylo, keyhi, lstvalues, cmpfunction):
             comphi = cmpfunction(keyhi, root['key'])
 
             if (complo < 0):
-                keysRange(root['left'], keylo, keyhi, lstvalues, cmpfunction)
+                valuesRange(root['left'], keylo, keyhi, lstvalues, cmpfunction)
             if ((complo <= 0) and (comphi >= 0)):
                 lt.addLast(lstvalues, root['value'])
             if (comphi > 0):
-                keysRange(root['right'], keylo, keyhi, lstvalues, cmpfunction)
+                valuesRange(root['right'], keylo, keyhi, lstvalues, cmpfunction)
         return lstvalues
     except Exception as exp:
         error.reraise(exp, 'BST:valuesrange')

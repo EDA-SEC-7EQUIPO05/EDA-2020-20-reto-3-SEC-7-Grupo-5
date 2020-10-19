@@ -90,3 +90,16 @@ def accidentsbyDate(analyzer, initialDate):
 
 def severitybyDate(SeverityIndex):
     return model.severitybyDate(SeverityIndex)
+
+def statebyDate(StateIndex):
+    return model.statebyDate(StateIndex)
+
+def maxDateinRange(mindate, maxdate, analyzer):
+    mindate = datetime.datetime.strptime(mindate, '%Y-%m-%d')
+    maxdate = datetime.datetime.strptime(maxdate, '%Y-%m-%d')
+    return model.maxDateinRange(mindate.date(), maxdate.date(), analyzer)
+
+def maxStateinRange(mindate, maxdate, analyzer):
+    mindate = datetime.datetime.strptime(mindate, '%Y-%m-%d')
+    maxdate = datetime.datetime.strptime(maxdate, '%Y-%m-%d')
+    return model.maxStateinRange(mindate.date(), maxdate.date(), analyzer)
