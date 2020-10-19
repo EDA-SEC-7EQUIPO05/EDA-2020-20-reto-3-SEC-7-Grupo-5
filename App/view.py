@@ -26,10 +26,7 @@ from DISClib.ADT import list as lt
 from App import controller
 from DISClib.DataStructures import listiterator as it
 from time import process_time 
-from DISClib.ADT import orderedmap as om
-from DISClib.ADT import map as m
 assert config
-
 
 """
 La vista se encarga de la interacción con el usuario.
@@ -57,6 +54,9 @@ def printMenu():
     print("2- Cargar información de accidentes")
     print("3- Requerimento 1")
     print("4- Requerimento 2")
+    print("5- Requerimento 3")
+    print("6- Requerimento 4")
+    print("7- Requerimento 5")
     print("0- Salir")
     print("*******************************************")
 
@@ -66,14 +66,26 @@ def print_severity_information_by_date(SeverityIndex_values):
         elemento = it.next(iterator)
         print("Severity: "+str(elemento['Severity'])+" -> "+str(elemento['Accidents']['size'])+" accidentes")
 
-
 def print_accidents_before_date (accidentes):
     
+    suma=0
+    lista=[]
+
     for i in range(1,lt.size(accidentes)):
         keyDate=lt.getElement(accidentes,i)
         cantidad=lt.size(keyDate["AccidentList"])
+        suma+=cantidad
+        lista.append(cantidad)
 
-    print(cantidad)
+    maximo=max(lista)
+
+    for m in range(1,lt.size(accidentes)):
+        keyDate=lt.getElement(accidentes,m)
+        cantidad=lt.size(keyDate["AccidentList"])
+        if maximo==cantidad:
+            fecha=keyDate["Date"]
+        
+    print("El total de accidentes ocurridos antes de la fecha indicada fueron: "+str(suma)+" "+"y la fecha en la que mas se reportaron accidentes fue: "+str(fecha))
 
 
 """
@@ -109,6 +121,8 @@ while True:
             if value is not None:
                 SeverityIndex = value['SeverityIndex']
                 SeverityIndex_values = controller.severitybyDate(SeverityIndex)
+                StateIndex = value['StateIndex']
+                StateIndex_values = controller.statebyDate(StateIndex)
                 print("Los accidentes por severidad en esta fecha son:\n")
                 print_severity_information_by_date(SeverityIndex_values)
                 print("\nEl total de accidentes para esa fecha es de "+str(value["AccidentList"]["size"]))
@@ -122,8 +136,31 @@ while True:
         print("\nRequerimiento No 2 del reto 3: ")
         date=input("Fecha (YYYY-MM-DD): ")
         accidentes = controller.accidentsbeforeDate(cont,date)
-        print_accidents_before_date(accidentes)
+        if accidentes is not None:
+            print_accidents_before_date(accidentes)
+        else:
+            print("No se encontró la fecha o no es un dato válido, ingrese una fecha de nuevo")
 
+    elif int(inputs[0]) == 5:
+        print("\nBuscando crimenes en un rango de fechas: ")
+
+    elif int(inputs[0]) == 6:
+        mindate = input("Primera fecha (YYYY-MM-DD): ")
+        maxdate = input("Segunda fecha (YYYY-MM-DD): ")
+        max_date_acc = controller.maxDateinRange(mindate, maxdate, cont)
+        max_state_acc = controller.maxStateinRange(mindate, maxdate, cont)
+        print("En el rango entre",mindate,"y",maxdate,"la fecha con más accidentes es",max_date_acc[0],"con", max_date_acc[1],"accidentes.")
+        print("El estado con mas accidentes es",max_state_acc[1],"con",max_state_acc[0],"accidentes.")
+
+    elif int(inputs[0]) == 7:
+        mintime = input("Primera hora (HH-MM-SS): ")
+        maxtime = input("Segunda hora (HH-MM-SS): ")
+        info = controller.accidentsinTimeRange(mintime, maxtime, cont)
+        sevs = controller.severitybyTimeRange(mintime, maxtime, cont)
+        print("En el rango entre",mintime,"y",maxtime,"el número de accidentes es",info[0],"o", info[1],"porciento del total.\n")
+        print('Severidad:\n')
+        for i in range(1,5):
+            print(str(i)+' -> '+ str(sevs[str(i)]))
 
     elif int(inputs[0]) == 0:
         sys.exit(0)

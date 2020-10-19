@@ -88,12 +88,35 @@ def accidentsbyDate(analyzer, initialDate):
     except:
         return None
 
-def severitybyDate(SeverityIndex):
-    return model.severitybyDate(SeverityIndex)
-
 def accidentsbeforeDate (analyzer, date):
     try:
         date=datetime.datetime.strptime(date, '%Y-%m-%d')
         return model.accidentsbeforeDate(analyzer, date.date())
     except:
         return None
+
+def severitybyDate(SeverityIndex):
+    return model.severitybyDate(SeverityIndex)
+
+def statebyDate(StateIndex):
+    return model.statebyDate(StateIndex)
+
+def maxDateinRange(mindate, maxdate, analyzer):
+    mindate = datetime.datetime.strptime(mindate, '%Y-%m-%d')
+    maxdate = datetime.datetime.strptime(maxdate, '%Y-%m-%d')
+    return model.maxDateinRange(mindate.date(), maxdate.date(), analyzer)
+
+def maxStateinRange(mindate, maxdate, analyzer):
+    mindate = datetime.datetime.strptime(mindate, '%Y-%m-%d')
+    maxdate = datetime.datetime.strptime(maxdate, '%Y-%m-%d')
+    return model.maxStateinRange(mindate.date(), maxdate.date(), analyzer)
+
+def accidentsinTimeRange(mintime, maxtime, analyzer):
+    mintime = datetime.datetime.strptime(mintime, '%H-%M-%S')
+    maxtime = datetime.datetime.strptime(maxtime, '%H-%M-%S')
+    return model.numberAccidentsinTimeRange(analyzer, mintime.time(), maxtime.time())
+
+def severitybyTimeRange(mintime, maxtime, analyzer):
+    mintime = datetime.datetime.strptime(mintime, '%H-%M-%S')
+    maxtime = datetime.datetime.strptime(maxtime, '%H-%M-%S')
+    return model.SeveritybyTimeRange(analyzer, mintime.time(), maxtime.time())
