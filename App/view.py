@@ -132,7 +132,9 @@ while True:
         print("En el rango entre",mintime,"y",maxtime,"el número de accidentes es",info[0],"o", info[1],"porciento del total.\n")
         print('Severidad:\n')
         for i in range(1,5):
-            print(str(i)+' -> '+ str(sevs[str(i)]))
+            num = str(sevs[str(i)])
+            per = str(round((float(num)/info[0])*100,2))
+            print(str(i)+' -> '+ num+' ('+per+'%)')
 
     elif int(inputs[0]) == 0:
         sys.exit(0)
