@@ -191,13 +191,15 @@ while True:
         maxtime = input("Segunda hora (HH-MM-SS): ")
         info = controller.accidentsinTimeRange(mintime, maxtime, cont)
         sevs = controller.severitybyTimeRange(mintime, maxtime, cont)
-        print("En el rango entre",mintime,"y",maxtime,"el número de accidentes es",info[0],"o", info[1],"porciento del total.\n")
+        print("En el rango entre",mintime,"y",maxtime,"el número de accidentes es",info,"\n")
         print('Severidad:\n')
         for i in range(1,5):
-            print(str(i)+' -> '+ str(sevs[str(i)]))
+            data = sevs[str(i)]
+            per = round((data/info)*100,2)
+            print(str(i)+' -> '+ str(data)+' ('+str(per)+'%)\n')
     
     elif int(inputs[0]) == 8:
-        print("\nRequerimiento No 5 del reto 3: ")
+        print("\nRequerimiento No 6 del reto 3: ")
         while True:
             try:
                 radio = abs(float(input("Ingrese un radio de búsqueda en kilómetros: ")))

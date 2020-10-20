@@ -308,15 +308,14 @@ def accidentsinTimeRange(analyzer, mintime, maxtime):
     return om.values(analyzer['TimeIndex'], mintime, maxtime)
 
 def numberAccidentsinTimeRange(analyzer, mintime, maxtime):
-    total = lt.size(analyzer['accidents'])
     num = 0
     values = accidentsinTimeRange(analyzer, mintime, maxtime)
     iterator = it.newIterator(values)
     while it.hasNext(iterator):
         element = it.next(iterator)
         num += lt.size(element['AccidentList'])
-    percent = round((num/total)*100,2)
-    return (num, percent)
+
+    return num
 
 def SeveritybyTimeRange(analyzer, mintime, maxtime):
     values = accidentsinTimeRange(analyzer, mintime, maxtime)
