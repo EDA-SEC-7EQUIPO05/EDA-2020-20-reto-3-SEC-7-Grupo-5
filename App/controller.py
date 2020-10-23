@@ -141,12 +141,12 @@ def maxStateinRange(mindate, maxdate, analyzer):
 def accidentsinTimeRange(mintime, maxtime, analyzer):
     mintime = datetime.datetime.strptime(mintime, '%H-%M-%S')
     maxtime = datetime.datetime.strptime(maxtime, '%H-%M-%S')
-    return model.numberAccidentsinTimeRange(analyzer, mintime.time(), maxtime.time())
+    return model.numberAccidentsinTimeRange(analyzer, model.ceil_dt(mintime).time(), model.ceil_dt(maxtime).time())
 
 def severitybyTimeRange(mintime, maxtime, analyzer):
     mintime = datetime.datetime.strptime(mintime, '%H-%M-%S')
     maxtime = datetime.datetime.strptime(maxtime, '%H-%M-%S')
-    return model.SeveritybyTimeRange(analyzer, mintime.time(), maxtime.time())
+    return model.SeveritybyTimeRange(analyzer, model.time_round(mintime), model.time_round(maxtime))
 
 def accidentsByZone(radio, longitud, latitud, analyzer):
     dayTable = model.accidentsByZone(radio, longitud, latitud, analyzer)

@@ -116,7 +116,7 @@ while True:
     elif int(inputs[0]) == 2:
         print("\nCargando información de accidentes....")
         t_start = process_time()
-        controller.loadData(cont, all_accidents[0])
+        controller.loadData(cont, all_accidents[1])
         t_stop = process_time()
         print("El tiempo de carga total fue de "+str(t_stop-t_start)+" segundos")
         print("\nAltura del arbol de fechas: "+str(controller.heightDateIndex(cont)))

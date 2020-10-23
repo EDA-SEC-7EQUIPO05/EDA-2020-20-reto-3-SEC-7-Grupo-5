@@ -116,10 +116,14 @@ def updateDateIndex(accident, mapa):
 def updateTimeIndex(accident, mapa):
     occurdate = accident['Start_Time']
     accdate = datetime.datetime.strptime(occurdate, '%Y-%m-%d %H:%M:%S')
-    entry = om.get(mapa, accdate.time())
+    if accdate.minute < 15 or (accdate.minute > 29 and accdate.minute < 45):
+        entry_time = floor_dt(accdate).time()
+    else:
+        entry_time = floor_dt(accdate).time()
+    entry = om.get(mapa, entry_time)
     if entry is None:
-        timeEntry = newTimeEntry(accdate.time())
-        om.put(mapa, accdate.time(), timeEntry)
+        timeEntry = newTimeEntry(entry_time)
+        om.put(mapa, entry_time, timeEntry)
     else:
         timeEntry = me.getValue(entry)
     addTimeAccident(timeEntry, accident)
@@ -437,3 +441,17 @@ def compareDistances(distance_1, distance_2):
         return 1
     else:
         return -1
+
+
+def ceil_dt(dt, delta = datetime.timedelta(minutes=30)):
+    return dt + (datetime.datetime.min - dt) % delta
+
+def floor_dt(dt, delta = datetime.timedelta(minutes=30)):
+    return dt - (dt - datetime.datetime.min) % delta
+
+def time_round(time):
+    if time.minute < 15 or (time.minute > 29 and time.minute < 45):
+        entry_time = floor_dt(time).time()
+    else:
+        entry_time = ceil_dt(time).time()
+    return entry_time
